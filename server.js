@@ -5,24 +5,35 @@ const connectDB = require("./config/db");
 
 const app = express();
 
-// Connect Mongo only once (serverless-friendly)
+// Connect Mongo only once
 connectDB(process.env.MONGO_URI);
 
 app.use(express.json());
 
-app.use(cors({
-  origin: [
-    "http://localhost:8080",
-    "https://admin-rs1h.onrender.com",
-    "https://loan-inquiry-hub.vercel.app"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
-}));
+// CORS FIX: ADD PATCH
+app.use(
+  cors({
+    origin: [
+      "http://localhost:8080",
+      "https://admin-rs1h.onrender.com",
+      "https://loan-inquiry-hub.vercel.app"
+    ],
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
+  })
+);
 
-
-app.options("*", cors());
+// Handle OPTIONS manually for Vercel
+app.options("*", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.status(200).end();
+});
 
 // Test route
 app.get("/test", (req, res) => {
