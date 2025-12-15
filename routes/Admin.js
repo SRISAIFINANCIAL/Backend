@@ -99,25 +99,25 @@ router.get("/applications/:id", auth, async (req, res) => {
 });
 
 // ✅ DOWNLOAD PDF
+const { streamApplicationPDF } = require("../utils/pdf");
+
 router.get("/applications/:id/pdf", auth, async (req, res) => {
   try {
-    const app = await Application.findById(req.params.id).lean();
-    if (!app) return res.status(404).json({ message: "Not found" });
+    const application = await Application.findById(req.params.id);
+    if (!application) {
+      return res.status(404).json({ message: "Not found" });
+    }
 
-    const buffer = await streamApplicationPDF(app);
-
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename="${app.name}.pdf"`
-    );
-
-    res.end(buffer);
+    // ✅ STREAM directly — no buffer, no base64
+    streamApplicationPDF(application, res);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error" });
+    if (!res.headersSent) {
+      res.status(500).json({ message: "Server error" });
+    }
   }
 });
+
 
 // ✅ DELETE APPLICATION
 router.delete("/applications/:id", auth, async (req, res) => {
