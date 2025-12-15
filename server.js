@@ -16,7 +16,8 @@ app.use(
     origin: [
       "http://localhost:8080",
       "https://admin-rs1h.onrender.com",
-      "https://loan-inquiry-hub.vercel.app"
+      "https://loan-inquiry-hub.vercel.app",
+      "https://saifinancefrontend.onrender.com"
     ],
     methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -42,6 +43,6 @@ app.get("/test", (req, res) => {
 
 // Routes
 app.use("/admin", require("./routes/Admin"));
-app.use("/application", require("./routes/Application"));
+app.use("/api/application", require("./routes/Application"));
 
 module.exports = app;
