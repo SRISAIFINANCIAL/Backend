@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Application = require("../models/Application");
-const auth = require("../middleware/auth");
-const { streamApplicationPDF } = require("../utils/pdf");
-const { generatePDFBuffer } = require("../utils/pdf");
-// Create application (public)
+const { enforceStorageLimit } = require("../utils/storageManager");
+
+// Create application (PUBLIC)
 router.post("/formsubmit", async (req, res) => {
   try {
     const { 
@@ -76,6 +75,9 @@ router.post("/formsubmit", async (req, res) => {
 
     await application.save();
 
+    // ✅ AUTO STORAGE CLEANUP (DELETE OLDEST 50 IF LIMIT REACHED)
+    await enforceStorageLimit();
+
     res.status(201).json({
       message: "Application submitted",
       applicationId: application.id,
@@ -86,12 +88,5 @@ router.post("/formsubmit", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
-
-// Admin: get all applications (protected)
-
-
-// Admin: get one application
-
 
 module.exports = router;

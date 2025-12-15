@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const Admin = require("../models/Admin");
 const Application = require("../models/Application");
 const auth = require("../middleware/auth");
+const { getStorageStatus } = require("../utils/storageManager");
 
 
 /* =========================
@@ -130,6 +131,16 @@ router.delete("/applications/:id", auth, async (req, res) => {
     await application.deleteOne();
 
     res.json({ message: "Application deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+router.get("/storage-status", auth, async (req, res) => {
+  try {
+    const status = await getStorageStatus();
+    res.json(status);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });

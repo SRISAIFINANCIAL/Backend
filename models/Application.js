@@ -19,4 +19,7 @@ const ApplicationSchema = new mongoose.Schema({
   submittedAt: { type: Date, default: Date.now }
 });
 
+// ✅ INDEX FOR FAST SORT + DELETE
+ApplicationSchema.index({ submittedAt: 1 });
+
 module.exports = mongoose.model("Application", ApplicationSchema);
