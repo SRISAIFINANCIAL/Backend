@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const Admin = require("../models/Admin");
 const Application = require("../models/Application");
 const auth = require("../middleware/auth");
-const { streamApplicationPDF } = require("../utils/pdf");
+
 
 /* =========================
    PUBLIC ROUTES
