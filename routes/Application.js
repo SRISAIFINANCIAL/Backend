@@ -5,7 +5,7 @@ const auth = require("../middleware/auth");
 const { streamApplicationPDF } = require("../utils/pdf");
 const { generatePDFBuffer } = require("../utils/pdf");
 // Create application (public)
-router.post("/", async (req, res) => {
+router.post("/formsubmit", async (req, res) => {
   try {
     const { 
       name, 
