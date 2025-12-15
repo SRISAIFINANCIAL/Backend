@@ -10,7 +10,7 @@ function streamApplicationPDF(application, res) {
 
   // Set headers for download
   res.setHeader("Content-Type", "application/pdf");
-  res.setHeader("Content-Disposition", `attachment; filename=application-${application._id}.pdf`);
+  res.setHeader("Content-Disposition", `attachment; filename=application-${application.name}.pdf`);
 
   doc.pipe(res);
 
