@@ -14,10 +14,9 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      "http://localhost:8080",
-      "https://admin-rs1h.onrender.com",
-      "https://loan-inquiry-hub.vercel.app",
-      "https://saifinancefrontend.onrender.com"
+     "http://localhost:8080",
+      "https://srisaifinanceadmin.vercel.app",
+      "https://srisaifinance.vercel.app"
     ],
     methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
